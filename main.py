@@ -23,7 +23,7 @@ async def pyppetet(url):
     browser = await launch()
     page = await browser.newPage()
     await page.goto(url)
-    await page.waitFor(5000)
+    await page.waitFor(7000)
     ## Get HTML
     html = await page.content()
     await browser.close()
@@ -33,7 +33,6 @@ def compare_with_db(items, cur):
     new_items = []
     res = cur.execute("SELECT DISTINCT url FROM events")
     old_items = [item[0] for item in res.fetchall()]
-    
     for item in items:
         if item not in old_items:
             new_items.append(item)
@@ -79,15 +78,23 @@ def main():
     con = sqlite3.connect("events.db")
     cur = con.cursor()
     new_items = event_checker('https://goout.net/cs/eternia-smichov/vzsvob/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/underdogs-ballroom/vzocpb/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/roxy/vzm/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/ankali/vzqivb/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/fuchs2/vzaoed/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/bike-jesus/vznvp/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/modra-vopice/vzpd/events/', cur, con)
-    new_item = new_items + event_checker('https://goout.net/cs/punctum/vzkpbb/events/', cur, con)
-    if new_item:
-        print(new_items)
+    print("New Items from Eternia - Smichov")
+    new_items = new_items + event_checker('https://goout.net/cs/underdogs-ballroom/vzocpb/events/', cur, con)
+    print("New Items from Underdogs - Ballroom")
+    new_items = new_items + event_checker('https://goout.net/cs/roxy/vzm/events/', cur, con)
+    print("New Items from Roxy")
+    new_items = new_items + event_checker('https://goout.net/cs/ankali/vzqivb/events/', cur, con)
+    print("New Items from Ankali")
+    new_items = new_items + event_checker('https://goout.net/cs/fuchs2/vzaoed/events/', cur, con)
+    print("New Items from Fuchs2")
+    new_items = new_items + event_checker('https://goout.net/cs/bike-jesus/vznvp/events/', cur, con)
+    print("New Items from Bike Jesus")
+    new_items = new_items + event_checker('https://goout.net/cs/modra-vopice/vzpd/events/', cur, con)
+    print("New Items from Modrá opice")
+    new_items = new_items + event_checker('https://goout.net/cs/punctum/vzkpbb/events/', cur, con)
+    print("New Items from Punctum")
+    if new_items:
+        print("sending")
         sender(new_items)
     
 
