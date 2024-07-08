@@ -1,5 +1,5 @@
 import asyncio
-from pyppeteer import launch
+from pyppeteer.launcher import launch
 from bs4 import BeautifulSoup
 
 import sqlite3
