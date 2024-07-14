@@ -1,0 +1,6 @@
+PORT = "587"
+SMTP_SERVER = "smtp.gmail.com"
+SENDER_EMAIL = ""
+PASSWORD = ""
+RECEIVER_EMAIL = ""
+VENUES = "./venues.txt"
