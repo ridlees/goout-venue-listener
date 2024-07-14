@@ -68,7 +68,7 @@ def sender(events):
 def event_checker(url, cur, con):
     items = get_event_array(url)
     if items == None:
-        return None
+        return ""
     new_items = compare_with_db(items, cur)
     save_to_db(new_items,cur)
     con.commit()
