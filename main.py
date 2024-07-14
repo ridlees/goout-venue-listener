@@ -44,14 +44,13 @@ def save_to_db(items, cur):
         cur.execute("""INSERT INTO events (url) 
                VALUES (?);""", (item,))
 
-def prune_db(cur):
-    pass
-
 def get_event_array(url):
     html_response = asyncio.get_event_loop().run_until_complete(pyppetet(url))
     ## Load HTML Response Into BeautifulSoup
     soup = BeautifulSoup(html_response, "html.parser")
     items_row = soup.find_all("div", class_="items row")[0]
+    if items_row == None:
+        return None
     items = []
     for item in items_row.find_all("a", class_="title"):
         link = "https://goout.net" + item.get("href")
@@ -68,17 +67,17 @@ def sender(events):
 
 def event_checker(url, cur, con):
     items = get_event_array(url)
+    if items == None:
+        return None
     new_items = compare_with_db(items, cur)
     save_to_db(new_items,cur)
     con.commit()
-    #prune_db(cur)
-    #con.commit()
     return new_items
 
 def main():
     con = sqlite3.connect("events.db")
     cur = con.cursor()
-
+    
     with open(path_to_file) as file:
         new_items = []
         for line in file.readlines():
