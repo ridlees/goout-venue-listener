@@ -18,6 +18,7 @@ smtp_server = os.environ.get("SMTP_SERVER")
 sender_email = os.environ.get("SENDER_EMAIL")
 password = os.environ.get("PASSWORD")
 email = os.environ.get("RECEIVER_EMAIL")
+path_to_file = os.environ.get("VENUES")
 
 async def pyppetet(url):
     browser = await launch()
@@ -77,25 +78,17 @@ def event_checker(url, cur, con):
 def main():
     con = sqlite3.connect("events.db")
     cur = con.cursor()
-    new_items = event_checker('https://goout.net/cs/eternia-smichov/vzsvob/events/', cur, con)
-    print("New Items from Eternia - Smichov")
-    new_items = new_items + event_checker('https://goout.net/cs/underdogs-ballroom/vzocpb/events/', cur, con)
-    print("New Items from Underdogs - Ballroom")
-    new_items = new_items + event_checker('https://goout.net/cs/roxy/vzm/events/', cur, con)
-    print("New Items from Roxy")
-    new_items = new_items + event_checker('https://goout.net/cs/ankali/vzqivb/events/', cur, con)
-    print("New Items from Ankali")
-    new_items = new_items + event_checker('https://goout.net/cs/fuchs2/vzaoed/events/', cur, con)
-    print("New Items from Fuchs2")
-    new_items = new_items + event_checker('https://goout.net/cs/bike-jesus/vznvp/events/', cur, con)
-    print("New Items from Bike Jesus")
-    new_items = new_items + event_checker('https://goout.net/cs/modra-vopice/vzpd/events/', cur, con)
-    print("New Items from Modrá opice")
-    new_items = new_items + event_checker('https://goout.net/cs/punctum/vzkpbb/events/', cur, con)
-    print("New Items from Punctum")
-    if new_items:
-        print("sending")
-        sender(new_items)
+
+    with open(path_to_file) as file:
+        new_items = []
+        for line in file.readlines():
+            print(line)
+            new_items = new_items + event_checker(line, cur, con)
+        if new_items:
+            print("sending")
+            sender(new_items)
+   
+    
     
 
 if __name__ == '__main__':
