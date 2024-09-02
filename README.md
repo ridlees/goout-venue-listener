@@ -20,14 +20,15 @@ A simple script utilising pyppeteer to scrap new events from Goout.net, compare 
     * **PASSWORD** is password to your email
   * **RECEIVER_EMAIL** email is the email on which you send the new events
   * **VENUES** is the location of your *venues.txt* file
-3. Go to [Goout](https://goout.net) and visit venue you want to subscribe to. On it, click on **Upcoming Events** and copy the URL. 
+3. Go to [Goout](https://goout.net) and visit venue you want to subscribe to. On it, click on **Upcoming Events** and copy the URL. (E.G. https://goout.net/cs/ankali/vzqivb/events/)
 4. Add it to *venues.txt*
 5. Repeat 3. and 4. for all venues you want.
+6. In main.py, change the line 62 to any text you want (E.G. "Ahoj Honzo, \n tady jsou tvé akce"). Save the changes.
 
 ## Running
 
 * Go to the Goout venue listener folder and run `python3 main.py`.
-> It will go through all your venues and check all incoming events. On each run, it sends you all events that are not in the *events.db*. That can be quite a lot on first runs.
+> It will go through all your venues and check all incoming events. On each run, it sends you all events that are not in the *events.db*. That can be quite a lot on the first run.
 
 
 
